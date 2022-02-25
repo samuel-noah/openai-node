@@ -6,6 +6,15 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = process.env.PORT
+const expressLayouts = require('express-ejs-layouts');
+
+app.use(expressLayouts);
+
+//set the view engine to ejs
+app.set('view engine', 'ejs');
+
+//set up static files
+app.use(express.static('public'));
 
 
 //setting up openai api
@@ -14,9 +23,12 @@ const { Configuration, OpenAIApi } = require("openai");
 
 
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
+  res.render('home' , {
+    title: 'Home',
+    layout: 'layouts/main'
+  });
 
-  res.send('Hello World!')
 })
 
 const configuration = new Configuration({
