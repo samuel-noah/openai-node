@@ -1,15 +1,16 @@
 
-<h1>Let's Talk to An AI</h1>
-    <form action="/search" method="GET" class = 'd-flex'>   
-        <input type="text" 
-        class="form-control me-2 mt-3" id="floatingInput" 
-        placeholder="input some text" 
-        name="talk" 
-        autocapitalize="off">
-
-        <button type="submit" class="btn btn-primary">Talk</button>
-    </form>
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Answer</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"><%= completion %> </textarea>
-      </div>
+<div class="container mt-3">
+    <h1>Talk to An AI</h1>
+    <p style="font-size:30px">&#128512;</p>  
+        <form action="/search" method="GET" class = 'd-flex' autocomplete="off">
+            <input type="text"
+            class="form-control" id="floatingInput" 
+            placeholder="input some text" 
+            name="talk" >
+            <button type="submit" class="btn btn-primary">Talk</button>
+        </form>
+        <div class="mb-3 mt-5">
+            <p style="font-size:30px">&#129302;</p> 
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"><%= completion %> </textarea>
+        </div>
+</div>

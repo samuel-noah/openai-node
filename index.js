@@ -24,6 +24,8 @@ const { Configuration, OpenAIApi } = require("openai");
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+//settin up route
 app.get('/', (req, res) => {
   res.render('home',{
     title: 'Home',
@@ -32,7 +34,7 @@ app.get('/', (req, res) => {
   });
 })
 
-
+//setting up the form route
 app.get('/form',(req,res)=>{
   res.render('form',{
     title: 'Form',
@@ -43,24 +45,23 @@ app.get('/form',(req,res)=>{
 
 app.get('/search', (req, res) => {
   
+  
   //getting the search query 
   const search = req.query
   
-
   //setting up the openai api
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
-
+  
 
   //getting the response from openai api
   async function get_data(){
     const completion = await openai.createCompletion("text-davinci-001", {
-      prompt: `${search.talk[0]}`
+      prompt: `${search.talk[0]}`,
     });
 
-    
 
     //rendering the response to the page
     res.render('search' , {
