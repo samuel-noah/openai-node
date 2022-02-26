@@ -20,31 +20,69 @@ app.use(express.static('public'));
 //setting up openai api
 const { Configuration, OpenAIApi } = require("openai");
 
-
-
+//setting up body parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.render('home' , {
+  res.render('home',{
     title: 'Home',
+    layout: 'layouts/main'
+
+  });
+})
+
+
+app.get('/form',(req,res)=>{
+  res.render('form',{
+    title: 'Form',
+    layout: 'layouts/main'
+  });
+})
+
+
+app.get('/search', (req, res) => {
+  
+  //getting the search query 
+  const search = req.query
+  
+
+  //setting up the openai api
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+
+
+  //getting the response from openai api
+  async function get_data(){
+    const completion = await openai.createCompletion("text-davinci-001", {
+      prompt: `${search.talk[0]}`
+    });
+
+    
+
+    //rendering the response to the page
+    res.render('search' , {
+    title: 'Search',
+    layout: 'layouts/main',
+    completion: completion.data.choices[0].text
+  });
+  }
+  get_data()
+  
+})
+
+
+//setting the about page 
+app.get('/about', (req, res) => {
+
+  res.render('about', {
+    title: 'About',
     layout: 'layouts/main'
   });
 
 })
-
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
-
-async function get_data(){
-  const completion = await openai.createCompletion("text-davinci-001", {
-    prompt: "Hello world",
-  });
-  console.log(completion.data.choices[0].text);
-  
-}
-get_data()
-
 
 //listening on port
 app.listen(port, () => {
